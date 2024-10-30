@@ -5,9 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Upload, Camera, CheckCircle, AlertCircle, X } from "lucide-react";
 import { useDropzone } from 'react-dropzone';
-import * as process from "node:process";
 
-// Types
 interface PassportData {
     passport_number: string;
     full_name: string;
