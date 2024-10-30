@@ -37,13 +37,6 @@ const PassportScanner: React.FC = () => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Auto-start camera on mobile
-    useEffect(() => {
-        if (isMobile && !file && !videoStream) {
-            startCamera();
-        }
-    }, [isMobile, file, videoStream]);
-
     const onDrop = useCallback((acceptedFiles: File[]) => {
         const selectedFile = acceptedFiles[0];
         handleFileSelection(selectedFile);
@@ -67,7 +60,7 @@ const PassportScanner: React.FC = () => {
     const startCamera = async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: isMobile ? 'environment' : 'user' }
+                video: { facingMode: 'environment' }
             });
             setVideoStream(stream);
             setShowCamera(true);
@@ -151,7 +144,7 @@ const PassportScanner: React.FC = () => {
             <Scan className="w-16 h-16 mb-4" />
             <h3 className="text-lg font-medium mb-2">No Passport Scanned Yet</h3>
             <p className="max-w-sm">
-                Upload or capture a passport image using the scanner on the left to extract information
+                Click the button to use your camera or upload an image to extract passport information
             </p>
         </div>
     );
@@ -186,7 +179,7 @@ const PassportScanner: React.FC = () => {
                     <CardContent>
                         <div className="space-y-6">
                             {/* File Upload Section */}
-                            {!showCamera && !isMobile && (
+                            {!showCamera && (
                                 <div
                                     {...getRootProps()}
                                     className={`
@@ -202,7 +195,7 @@ const PassportScanner: React.FC = () => {
                             )}
 
                             {/* Camera Section */}
-                            {!previewUrl && !isMobile && (
+                            {!previewUrl && (
                                 <div className="flex justify-center">
                                     <Button
                                         variant="outline"
