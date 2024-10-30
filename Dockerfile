@@ -32,7 +32,7 @@ COPY backend/ ./backend/
 COPY --from=frontend-builder /app/frontend/dist ./backend/static
 
 # Set environment variable for Tesseract
-ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata
+# ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata
 
 # Set the working directory to the backend folder
 WORKDIR /app/backend
