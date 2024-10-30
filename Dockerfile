@@ -7,7 +7,7 @@ COPY frontend/ ./
 RUN npm run build
 
 # Main application stage
-FROM python:3.9-slim
+FROM python:3.10-slim
 
 # Install only the necessary system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
