@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Upload, Camera, CheckCircle, AlertCircle, X } from "lucide-react";
 import { useDropzone } from 'react-dropzone';
+import * as process from "node:process";
 
 // Types
 interface PassportData {
@@ -26,7 +27,6 @@ const PassportScanner: React.FC = () => {
     const [showCamera, setShowCamera] = useState<boolean>(false);
     const [videoStream, setVideoStream] = useState<MediaStream | null>(null);
 
-    // Handle file drop
     const onDrop = useCallback((acceptedFiles: File[]) => {
         const selectedFile = acceptedFiles[0];
         handleFileSelection(selectedFile);
@@ -49,7 +49,6 @@ const PassportScanner: React.FC = () => {
         }
     };
 
-    // Camera handling
     const startCamera = async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -98,7 +97,7 @@ const PassportScanner: React.FC = () => {
         formData.append('file', file);
 
         try {
-            const response = await fetch('http://localhost:8000/api/extract-passport', {
+            const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/extract-passport`, {
                 method: 'POST',
                 body: formData,
             });
