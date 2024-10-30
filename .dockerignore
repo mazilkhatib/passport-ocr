@@ -1,0 +1,21 @@
+# .dockerignore
+**/.git
+**/.gitignore
+**/.vscode
+**/.idea
+**/node_modules
+**/dist
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.Python
+**/.env
+**/.venv
+**/pip-log.txt
+**/npm-debug.log
+**/.DS_Store
+**/coverage
+**/.coverage
+**/.pytest_cache
+**/.tox
