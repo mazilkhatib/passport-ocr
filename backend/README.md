@@ -52,13 +52,7 @@ The application will be available at:
 backend/
 ├── main.py              # FastAPI application entry point
 ├── requirements.txt     # Python dependencies
-├── tests/              # Test files
-├── app/                # Application source code
-│   ├── api/           # API routes
-│   ├── core/          # Core functionality
-│   ├── models/        # Data models
-│   └── services/      # Business logic services
-└── static/            # Static files
+└── README.md/           # Readme file
 ```
 
 ## Testing
