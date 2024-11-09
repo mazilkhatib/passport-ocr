@@ -6,16 +6,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Upload, Camera, CheckCircle, AlertCircle, X, Scan, Wifi } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDropzone } from 'react-dropzone';
-
-interface PassportData {
-    passport_number: string;
-    full_name: string;
-    date_of_birth: string;
-    date_of_issue: string;
-    date_of_expiry: string;
-    nationality: string;
-    gender: string;
-}
+import {PassportData} from "@/types/passportData.ts";
 
 const PassportScanner: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
