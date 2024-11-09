@@ -1,14 +1,15 @@
-import { useState, useCallback, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Upload, Camera, CheckCircle, AlertCircle, X, Scan, Wifi } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useDropzone } from 'react-dropzone';
+import {useCallback, useEffect, useState, FC} from 'react';
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
+import {AlertCircle, Camera, CheckCircle, Upload, Wifi, X} from "lucide-react";
+import {useDropzone} from 'react-dropzone';
 import {PassportData} from "@/types/passportData.ts";
+import {PassportInformation} from "@/components/PassportInformation.tsx";
+import {PlaceholderContent} from "@/components/PlaceHolderContent.tsx";
+import {LoadingSkeleton} from "@/components/LoadingSkeleton.tsx";
 
-const PassportScanner: React.FC = () => {
+const PassportScanner: FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [passportData, setPassportData] = useState<PassportData | null>(null);
@@ -151,48 +152,6 @@ const PassportScanner: React.FC = () => {
         )
     );
 
-    const LoadingSkeleton = () => (
-        <div className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-                    <div key={i}>
-                        <Skeleton className="h-4 w-20 mb-2" />
-                        <Skeleton className="h-6 w-full" />
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-
-    const PlaceholderContent = () => (
-        <div className="flex flex-col items-center justify-center h-full py-12 text-center text-gray-500">
-            <Scan className="w-16 h-16 mb-4" />
-            <h3 className="text-lg font-medium mb-2">No Passport Scanned Yet</h3>
-            <p className="max-w-sm">
-                Click the button to use your camera or upload an image to extract passport information
-            </p>
-        </div>
-    );
-
-    const PassportInformation = () => (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-                { label: "Passport Number", value: passportData?.passport_number },
-                { label: "Full Name", value: passportData?.full_name },
-                { label: "Date of Birth", value: passportData?.date_of_birth },
-                { label: "Nationality", value: passportData?.nationality },
-                { label: "Gender", value: passportData?.gender },
-                { label: "Date of Issue", value: passportData?.date_of_issue },
-                { label: "Date of Expiry", value: passportData?.date_of_expiry }
-            ].map((field, index) => (
-                <div key={index}>
-                    <Label>{field.label}</Label>
-                    <div className="font-medium">{field.value}</div>
-                </div>
-            ))}
-        </div>
-    );
-
     return (
         <div className="container mx-auto p-4">
             <NetworkStatus />
@@ -332,7 +291,7 @@ const PassportScanner: React.FC = () => {
                     </CardHeader>
                     <CardContent>
                         {loading && <LoadingSkeleton />}
-                        {passportData && <PassportInformation />}
+                        {passportData && <PassportInformation passportData={passportData} />}
                         {!loading && !passportData && <PlaceholderContent />}
                     </CardContent>
                 </Card>
