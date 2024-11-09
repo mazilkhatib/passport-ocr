@@ -41,6 +41,9 @@ This will start the Vite development server at `http://localhost:5173`
 ├── src/
 │   ├── components/          # React components
 │   │   ├── PassportScanner.tsx
+│   │   ├── LoadingSkeleton.tsx
+│   │   ├── PassportInformation.tsx
+│   │   ├── PlaceHolderContent.tsx
 │   │   └── ui/             # UI components
 │   │       ├── alert.tsx
 │   │       ├── button.tsx
