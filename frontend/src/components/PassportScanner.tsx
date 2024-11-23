@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState, FC} from 'react';
+import {useCallback, useEffect, useState, FC, useMemo} from 'react';
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
@@ -19,6 +19,7 @@ const PassportScanner: FC = () => {
     const [videoStream, setVideoStream] = useState<MediaStream | null>(null);
     const [isMobile, setIsMobile] = useState<boolean>(false);
     const [isOnline, setIsOnline] = useState<boolean>(true);
+    const [lastProcessedHash, setLastProcessedHash] = useState<string | null>(null);
 
     // Check if device is mobile and monitor online status
     useEffect(() => {
@@ -98,35 +99,45 @@ const PassportScanner: FC = () => {
         }
     };
 
+    const fileHash = useMemo(() => {
+        if (!file) return null;
+        return URL.createObjectURL(file);
+    }, [file]);
+
     const handleSubmit = async () => {
+        // Early returns for validation
         if (!file) {
             setError("Please select or capture a passport image");
             return;
         }
 
         if (!isOnline) {
-            setError("No internet connection. Please check your connection and try again.");
+            setError("No internet connection");
+            return;
+        }
+
+        // Skip processing if same file
+        if (fileHash && fileHash === lastProcessedHash) {
             return;
         }
 
         setLoading(true);
         setError(null);
 
-        const formData = new FormData();
-        formData.append('file', file);
-
         try {
+            const formData = new FormData();
+            formData.append('file', file);
+
             const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/extract-passport`, {
                 method: 'POST',
                 body: formData,
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to process passport data');
-            }
+            if (!response.ok) throw new Error('Failed to process passport');
 
             const data = await response.json();
             setPassportData(data);
+            setLastProcessedHash(fileHash);
         } catch (err) {
             if (!isOnline) {
                 setError("Lost internet connection. Please check your connection and try again.");
